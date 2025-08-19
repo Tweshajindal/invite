@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jagran Invitation</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@400;600&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4A148C;
+            /* Devotional Purple */
+            --secondary-color: #FFC107;
+            /* Auspicious Gold */
+            --accent-color: #FFFDE7;
+            /* Off-white */
+            --text-color: #333;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-color);
+            background-color: var(--accent-color);
+            overflow: auto;
+            height: 100vh;
+        }
+
+        /* Splash Screen */
+        .splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: url('https://i.ibb.co/jv2p87Bj/download.jpg') center center no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
+            color: var(--secondary-color);
+            transition: opacity 1s ease-in-out;
+            opacity: 1;
+            z-index: 100;
+        }
+
+        .splash-screen::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+            z-index: 1;
+        }
+
+        .splash-screen>* {
+            position: relative;
+            z-index: 2;
+        }
+
+        .splash-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+            position: absolute;
+            z-index: -1;
+        }
+
+        .welcome-text {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 8vw, 4rem);
+            font-weight: 700;
+            line-height: 1.2;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            margin: 0;
+            animation: bounceIn 1s ease-out;
+            color: #fff;
+        }
+
+        .organizer-text {
+            font-size: clamp(1rem, 4vw, 1.5rem);
+            font-weight: 400;
+            margin-top: 10px;
+            animation: fadeIn 1.5s ease-out 0.5s backwards;
+            color: #fff;
+        }
+
+        .enter-button {
+            margin-top: 30px;
+            padding: 12px 24px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #fff;
+            background-color: var(--secondary-color);
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            animation: pulse 1.5s infinite;
+            transition: transform 0.2s;
+        }
+
+        .enter-button:hover {
+            transform: scale(1.05);
+        }
+
+        /* Balloons */
+        .balloon-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 2;
+        }
+
+        .balloon {
+            position: absolute;
+            bottom: -150px;
+            width: clamp(50px, 10vw, 100px);
+            height: clamp(70px, 14vw, 140px);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            animation: float-up linear infinite;
+        }
+
+        .balloon::after {
+            content: '';
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 1px;
+            height: 30px;
+            background-color: var(--accent-color);
+        }
+
+        .balloon:nth-child(1) {
+            animation-delay: 1s;
+            left: 10%;
+            background-color: #E91E63;
+        }
+
+        .balloon:nth-child(2) {
+            animation-delay: 2s;
+            left: 25%;
+            background-color: #9C27B0;
+        }
+
+        .balloon:nth-child(3) {
+            animation-delay: 3s;
+            left: 45%;
+            background-color: #2196F3;
+        }
+
+        .balloon:nth-child(4) {
+            animation-delay: 4s;
+            left: 70%;
+            background-color: #009688;
+        }
+
+        .balloon:nth-child(5) {
+            animation-delay: 5s;
+            left: 90%;
+            background-color: #FFC107;
+        }
+
+        .balloon:nth-child(6) {
+            animation-delay: 6s;
+            left: 15%;
+            background-color: #F44336;
+        }
+
+        .balloon:nth-child(7) {
+            animation-delay: 7s;
+            left: 35%;
+            background-color: #4CAF50;
+        }
+
+        .balloon:nth-child(8) {
+            animation-delay: 8s;
+            left: 55%;
+            background-color: #FF5722;
+        }
+
+        .balloon:nth-child(9) {
+            animation-delay: 9s;
+            left: 80%;
+            background-color: #673AB7;
+        }
+
+        .balloon:nth-child(10) {
+            animation-delay: 10s;
+            left: 5%;
+            background-color: #00BCD4;
+        }
+
+        @keyframes float-up {
+            0% {
+                transform: translateY(0);
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: translateY(-150vh);
+                opacity: 0;
+            }
+        }
+
+        @keyframes bounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.3);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.1);
+            }
+
+            80% {
+                transform: scale(0.9);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* Invitation Page */
+        .invitation-page {
+            display: none;
+            height: 100vh;
+            width: 100%;
+            background: url('https://i.ibb.co/jv2p87Bj/download.jpg') center center no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow-y: auto;
+            animation: fadeIn 1s ease-in-out;
+            color: #fff;
+        }
+
+        .invitation-content {
+            background-color: rgba(255, 204, 0, 0.5);
+            border-radius: 20px;
+            padding: clamp(20px, 5vw, 40px);
+            margin: auto;
+            max-width: 700px;
+            text-align: center;
+        }
+
+        .invitation-header {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 6vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+
+        .invitation-details p {
+            font-size: clamp(1rem, 3vw, 1.2rem);
+            line-height: 1.6;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+
+        .detail-item {
+            font-size: clamp(1.1rem, 3vw, 1.3rem);
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .detail-item span {
+            font-weight: 400;
+            color: var(--text-color);
+        }
+
+        .footer-text {
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+            margin-top: 30px;
+            color: var(--text-color);
+            font-style: italic;
+        }
+
+        /* Hide YouTube Player */
+        #youtube-player {
+            width: 0;
+            height: 0;
+            border: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Hidden YouTube Player -->
+    <iframe id="youtube-player" src="" frameborder="0" allow="autoplay">
+    </iframe>
+
+    <!-- Splash Screen -->
+    <div class="splash-screen" id="splash-screen">
+        <div class="balloon-container">
+            <div class="balloon"></div>
+            <div class="balloon"></div>
+            <div class="balloon"></div>
+            <div class="balloon"></div>
+            <div class="balloon"></div>
+            <div class="balloon"></div>
+            <div class="balloon"></div>
+            <div class="balloon"></div>
+            <div class="balloon"></div>
+            <div class="balloon"></div>
+        </div>
+        <h1 class="welcome-text">इस शुभ अवसर पर आपका स्वागत है</h1>
+        <p class="organizer-text"><strong>नौजवान अबोहर सभा की ओर से</strong></p>
+        <button class="enter-button" id="enter-btn">Enter Invitation</button>
+    </div>
+
+    <!-- Main Invitation Page -->
+    <div class="invitation-page" id="invitation-page">
+        <div class="invitation-content">
+            <h2 class="invitation-header">श्री जागरण निमंत्रण</h2>
+            <p>
+                नौजवान अबोहर सभा की ओर से भजन संध्या का आयोजन 18 सितंबर दिन वीरवार बाबा श्याम जी के आशीर्वाद से किया जा
+                रहा है आप इस भजन संध्या के कार्यक्रम में सादर आमंत्रित हैं
+            </p>
+            <p>
+                जब हम दिव्य के गुणगान करने के लिए एक साथ आते हैं, तो आपकी उपस्थिति हमारे लिए सबसे बड़ा सम्मान है।
+            </p>
+
+            <div class="jagran-details">
+                <div class="detail-item">दिनांक: <span>18 सितंबर 2025</span></div>
+                <div class="detail-item">समय: <span></span></div>
+                <div class="detail-item">स्थान: <span>श्री प्राचीन श्याम मंदिर (कुम्हार मोहल्ला), नजदीक पुरानी सब्जी
+                        मंडी अबोहर</span></div>
+            </div>
+
+            <p class="footer-text">जय श्री कृष्णा! <br>जय माता दी!</p>
+        </div>
+    </div>
+
+    <script>
+        const splashScreen = document.getElementById('splash-screen');
+        const invitationPage = document.getElementById('invitation-page');
+        const enterBtn = document.getElementById('enter-btn');
+        const player = document.getElementById('youtube-player');
+
+        enterBtn.addEventListener('click', () => {
+            splashScreen.style.opacity = '0';
+            setTimeout(() => {
+                splashScreen.style.display = 'none';
+                invitationPage.style.display = 'block';
+            }, 1000);
+
+            // Load YouTube video with autoplay & loop
+            let videoId = "bPSycgZCVC8"; // from your link
+            player.src = "https://www.youtube.com/embed/" + videoId + "?autoplay=1&loop=1&playlist=" + videoId;
+        });
+
+    </script>
+</body>
+
+</html>
